@@ -29,6 +29,18 @@ jobs:
               javac -version
               echo $JAVA_HOME
               which java
+      
+      - name: Checkout Target Repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+
+      - name: Debug Repository
+        run: |
+          echo "Repository:"
+          echo $GITHUB_REPOSITORY
+          pwd
+          ls -la
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
@@ -40,10 +52,3 @@ jobs:
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
-
-      - name: Debug Repository
-        run: |
-             echo "Repository:"
-             echo $GITHUB_REPOSITORY
-             pwd
-             ls -la
