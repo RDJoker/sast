@@ -60,9 +60,9 @@ jobs:
           SARIF_FILE=$(find . -name "*.sarif" | head -n 1)
           echo "SARIF_FILE=$SARIF_FILE" >> $GITHUB_ENV
 
-      name: Send SARIF to Webhook
-      if: always()
-      run: |
+      - name: Send SARIF to Webhook
+        if: always()
+        run: |
         SARIF_FILE="/home/runner/work/${{ github.event.repository.name }}/results/java.sarif"
 
         echo "Sending SARIF file: $SARIF_FILE"
