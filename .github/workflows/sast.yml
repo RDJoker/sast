@@ -63,7 +63,14 @@ jobs:
       - name: Send SARIF to Webhook
         if: always()
         run: |
-          echo "Sending SARIF to webhook..."
-          curl -X POST ${{ vars.SECURITYNOTIF }} \
-          -H "Content-Type: application/json" \
-          --data-binary @"$SARIF_FILE"
+          SARIF_FILE=$(find results -name "*.sarif" | head -n 1)
+
+          echo "SARIF file: $SARIF_FILE"
+
+          if [ -f "$SARIF_FILE" ]; then
+           curl -X POST ${{ secrets.SAST_WEBHOOK }} \
+            -H "Content-Type: application/json" \
+            --data-binary @"$SARIF_FILE"
+          else
+            echo "No SARIF file found"
+          fi
